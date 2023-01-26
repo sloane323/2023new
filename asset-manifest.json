@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/sloane323/2023new/static/css/main.073c9b0a.css",
+    "main.js": "/sloane323/2023new/static/js/main.015985b7.js",
+    "static/js/787.99eb9e42.chunk.js": "/sloane323/2023new/static/js/787.99eb9e42.chunk.js",
+    "index.html": "/sloane323/2023new/index.html",
+    "main.073c9b0a.css.map": "/sloane323/2023new/static/css/main.073c9b0a.css.map",
+    "main.015985b7.js.map": "/sloane323/2023new/static/js/main.015985b7.js.map",
+    "787.99eb9e42.chunk.js.map": "/sloane323/2023new/static/js/787.99eb9e42.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.015985b7.js"
+  ]
+}
