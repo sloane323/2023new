@@ -42,7 +42,7 @@ const Login = () => {
             }  
           } 
           checkDoc();
-          navigate("/product");
+          navigate("/");
           dispatch(LOGIN(user.uid));
           console.log("구글로그인성공!")
         })

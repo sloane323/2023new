@@ -1,7 +1,11 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CustomerName from "../Componment/CustomerName";
 import Items from "../Componment/Items";
 
 const Main = () => {
+    const isLogincheck = useSelector((state) => state.login.isLoggedIn);
+
     return ( <div>
         <div>
                <input type='text' />  <br />
@@ -22,7 +26,13 @@ const Main = () => {
             <option value='파킹갯수'> 파킹갯수</option>
         </select>
         <button> Save Search </button> 
-        <Link to ='/login'><button>Sign in</button></Link>
+
+        { !isLogincheck ? ( 
+        <Link to ='/login'><button>Sign in</button></Link> 
+        ) : ( <div> <button> <Link to ='/update'> 상품등록 </Link></button><CustomerName /> </div>) }
+        
+
+
         </div> <hr />
          Rental Listings <br />
          00,000 Results<br />

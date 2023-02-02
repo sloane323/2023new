@@ -1,6 +1,6 @@
 const Items = () => {
     return ( <div>
-        <button>
+        <div>
         <div> 이미지 </div>
         <div>
         <span> 가격 </span>
@@ -10,7 +10,7 @@ const Items = () => {
         <div>
         <button> 0인실 </button>
         </div>
-        </button>
+        </div>
     </div> );
 }
  
