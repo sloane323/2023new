@@ -42,6 +42,7 @@ function App() {
           <Route path="/" element={<Main />}></Route>
           <Route path="/product/:id" element={<Product />}></Route>
           <Route path="/customername" element={<CustomerName />}></Route>
+          <Route path="/update" element={< UpdateHomeAdmin />} />
 
         </Routes>
         

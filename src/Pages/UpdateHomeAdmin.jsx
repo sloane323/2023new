@@ -4,16 +4,14 @@ import { Editor } from '@toast-ui/react-editor';
 
 import  { useRef, useState} from 'react';
 import { doc, setDoc } from "firebase/firestore"; 
-import { db ,storage } from "../firebase";
-import { useDispatch } from "react-redux";
-import { ref, getDownloadURL } from "firebase/storage";
+import { db  } from "../firebase";
+
+import ImageUpdate from '../Componment/ImageUpdate';
 
 const UpdateHomeAdmin = () => {
     const editorRef = useRef(null); 
     const toolbarItems = [ ['heading', 'bold', 'italic', 'strike'], ['hr'], ['ul', 'ol', 'task'], ['table', 'link'], ['image'], ['code'], ['scrollSync'], ] 
-    const [user, setUser] = useState({});
-    const [img, setImg] = useState('');
-    const fileInput = useRef(null);
+
       const [nextId, setNextId] = useState(321);
       const [price, setprice] = useState('');
       const [roomno, setroomno] = useState('');
@@ -24,6 +22,7 @@ const UpdateHomeAdmin = () => {
       const [address5, setaddress5] = useState('');
       const [people, setpeople] = useState('');
       const [lists, setLists] = useState([]);
+
 
       const putprice = (e) => {
         setprice(e.target.value);
@@ -50,6 +49,7 @@ const UpdateHomeAdmin = () => {
         setpeople(e.target.value);
       };
 
+
       const userkey = localStorage.getItem("currentUser"); 
           const addhome = async (user) => {
             const editorIns = await editorRef.current.getInstance(); 
@@ -57,7 +57,7 @@ const UpdateHomeAdmin = () => {
 
             await setDoc(doc(db, "houseinfo", Math.random().toString(36)), {
               uid: userkey,
-              image1:  img,
+              Img: "",
               homeid: Math.random().toString(36),
               price: price,
               roomno :roomno,
@@ -82,7 +82,7 @@ const UpdateHomeAdmin = () => {
         const about_lists = lists.concat({ //원래 있는 리스트에 붙여주기
             uid: userkey,
             homeid: Math.random().toString(36),
-            image1:  img,
+            Img: "",
             price: price,
             roomno :roomno,
             address1 :address1,
@@ -120,20 +120,7 @@ const UpdateHomeAdmin = () => {
 
 <form onSubmit={submit}>
 <div> 이미지 
- <div>           <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              setImg(e.target.files[0]);
-            }}
-            style={{ display: "none" }}
-            ref={fileInput}
-            value={img}
-          />
-  </div> 
- <div> <input type='file' />  </div> 
- <div> <input type='file' />  </div> 
- <div> <input type='file' />  </div> 
+<ImageUpdate />
 </div>
 
 <div>가격 

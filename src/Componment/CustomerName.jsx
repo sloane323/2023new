@@ -31,7 +31,7 @@ if (docSnap.exists()) {
  //  console.log("No such document!");
 } return docSnap.data; 
       
-}; getUsers(); } ,100);
+}; getUsers(); } ,[]);
 
   // 로그아웃
   const onLogOutClick = () => {
