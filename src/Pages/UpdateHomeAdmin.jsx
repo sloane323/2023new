@@ -7,6 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db  } from "../firebase";
 
 import ImageUpdate from '../Componment/ImageUpdate';
+import Sample from '../Componment/Sample';
 
 const UpdateHomeAdmin = () => {
     const editorRef = useRef(null); 
@@ -120,7 +121,7 @@ const UpdateHomeAdmin = () => {
 
 <form onSubmit={submit}>
 <div> 이미지 
-<ImageUpdate />
+<Sample />
 </div>
 
 <div>가격 

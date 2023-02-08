@@ -1,73 +1,68 @@
-import React, { useState, useEffect } from "react";
-import { storage } from "../firebase";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-
+import React, { useState, useEffect } from 'react';
+import 'firebase/storage';
+import { db , storage  } from "../firebase";
 
 const ImageUpdate = () => {
-    const [image, setImage] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [error, setError] = useState("");
-    const [progress, setProgress] = useState(100);
-  
-    const handleImage = (event) => {
-      const image = event.target.files[0];
-      setImage(image);
-      console.log(image);
-      setError("");
-    };
-  
-    const onSubmit = (event) => {
-      event.preventDefault();
-      setError("");
-      if (image === "") {
-        console.log("파일이 선택되지 않았습니다");
-        setError("파일이 선택되지 않았습니다");
-        return;
-      }
-      // 업로드 처리
-      console.log("업로드 처리");
-      const storageRef = storage.ref("images/test/"); //어떤 폴더 아래에 넣을지 설정
-      const imagesRef = storageRef.child(image.name); //파일명
-  
-      console.log("파일을 업로드하는 행위");
-      const upLoadTask = imagesRef.put(image);
-      console.log("태스크 실행 전");
-  
-      upLoadTask.on(
-        "state_changed",
-        (snapshot) => {
-          console.log("snapshot", snapshot);
-          const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(percent + "% done");
-          setProgress(percent);
-        },
-        (error) => {
-          console.log("err", error);
-          setError("파일 업로드에 실패했습니다." + error);
-          setProgress(100); //진행중인 바를 삭제
-        },
-        () => {
-          upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            setImageUrl(downloadURL);
-          });
-        }
-      );
-    };
+
+  const [attachment, setAttachment] = useState() 
+  const [file, setFile] = useState('')
+  const uuidv4 = Math.floor(Math.random() * 2 ** 20).toString(16);
+  const userkey = localStorage.getItem("currentUser"); 
+
+
+  console.log(userkey)
+
+  const onFileChange = (event) => {
+    const {target:{files, value}} = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    setFile(value)
+    reader.onloadend = (finishedEvent) => {
+      const { currentTarget: {result}} = finishedEvent
+      setAttachment(result)
+    }
+    reader.readAsDataURL(theFile);
+  }
+  const onClearAttachment = () => {
+    setAttachment(null)
+    setFile('')
+  };
+
+
+  const onSubmit = async (event) => {
+    let attachmentUrl = "";
+    if (attachment !== "") {
+      const attachmentRef = storage.ref().child(`${userkey}/${uuidv4}`);
+      const response = await attachmentRef.putString(attachment, "data_url")
+      attachmentUrl = await response.ref.getDownloadURL()
+    }
+    const postObj = {
+        createdAt: Date.now(),
+        creatorId: userkey,
+        attachmentUrl,
+    }
+    await db.collection("posts").add(postObj);
+ 
+    setAttachment('');
+    setFile('')
+  };
+
+
 
     return ( 
         <div>
-           
+
      
-        <input type="file" onChange={handleImage} />
-        <button onClick={onSubmit}>업로드</button>
-     
-     
-      {imageUrl && (
-        <div>
-          <img width="400px" src={imageUrl} alt="uploaded" />
-        </div>
-      )}
+        <input type="file" accept="image/*" onChange={onFileChange} value={file}/>
+        <button onClick={onSubmit}>Update</button>
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" alt="attachment"/>
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
+ 
+
     </div>
             
    
